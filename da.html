@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Wheel of Luck</title>
+<style>
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    background: #222;
+    color: white;
+    font-family: sans-serif;
+}
+#wheel-container {
+    position: relative;
+    width: 700px;
+    height: 700px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 5px solid #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-image: url(begraunda.png);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    background-blend-mode: color-dodge;
+    background-color: #00000070;
+}
+#wheel {
+    width: 100%;
+    height: 100%;
+    transition: transform 5s cubic-bezier(0.33, 1, 0.68, 1);
+    position: relative;
+}
+#wheel img {
+    position: absolute;
+    width: 85px;
+    height: 85px;
+    top: 50%;
+    left: 50%;
+    transform-origin: 0 0;
+    margin-top: 0px;
+    margin-left: 0px;
+    border-radius: 0;
+    object-fit: cover;
+    border: 3px solid transparent;
+    transition: border-color 0.3s;
+}
+#wheel img.selected {
+    border-color: red;
+}
+#picker {
+    position: absolute;
+    top: 20rem;
+    left: 40rem;
+    width: 0;
+    height: 0;
+    border-left: 30px solid transparent;
+    border-right: 30px solid transparent;
+    border-bottom: 50px solid #ffffffbd;
+    z-index: 10;
+    transform: rotate(
+280deg);
+}
+#spin-btn {
+    margin-top: 20px;
+    padding: 15px 30px;
+    font-size: 20px;
+    cursor: pointer;
+}
+.daa {
+    display: flex;
+    position: absolute;
+    z-index: -1;
+    justify-content: space-between;
+    width: 100%;
+}
+.daa>img {
+    width: 396px;
+}
+</style>
+</head>
+<body>
+
+<div class="daa">
+    <img src="left.png" alt=""><img src="right.png" alt="">
+</div>
+
+<h1>Koleloto na kasmeta!!!!</h1>
+<div id="wheel-container">
+    <div id="picker"></div>
+    <div id="wheel"></div>
+</div>
+<button id="spin-btn">Vrutkai</button>
+
+<script>
+const wheel = document.getElementById('wheel');
+const btn = document.getElementById('spin-btn');
+let angle = 0;
+const positions = 27;
+const images = [
+"18880025_1786856958007421_1764795234518793256.jpg",
+"348363340_280366274354735_1192139797558309888_n-370x500.jpg",
+"348366229_974931887154895_7667493438375847322_n-370x500.jpg",
+"350822050_562939882589483_8557220306127678947_n-370x500.jpg",
+"5aca1c44-8138-4173-a397-5a1fbd156697-370x500.jpg",
+"anna-kostadinova-bel-370x500.jpg",
+"dieyana-dimitrova-370x500.jpg",
+"dinitar-pavlov-370x500.jpg",
+"dobromira-vasileva-370x500.jpg",
+"download-370x500.jpg",
+"evgenia-semova-370x500.jpg",
+"IMG_20230620_201457-370x500.jpg",
+"iva-bukeva-370x500.jpg",
+"katerina-kutova-fvs-370x500.jpg",
+"lilia-doncheva-370x500.jpg",
+"margarita-kuzova-370x500.jpg",
+"maya-todorova-370x500.jpg",
+"milena-damesova-370x500.jpg",
+"mirela-ivanova-370x500.jpg",
+"pavel-vasilev-370x500.jpg",
+"received_575789354452346-370x500.jpg",
+"Snapchat-2030520309-370x500.jpg",
+"Snapchat-235763237-370x500.jpg",
+"Snapchat-597225208-370x500.jpg",
+"stela-antonova-ae-370x500.jpg",
+"teodora-georgieva-mat-370x500.jpg",
+"vanya-dimitrova-370x500.jpg"
+];
+
+for (let i = 0; i < positions; i++) {
+    let img = document.createElement('img');
+    let randomImage = images[Math.floor(Math.random() * images.length)];
+    let deg = i * (360 / positions);
+    img.src = 'images/' + randomImage;
+    img.style.transform = `rotate(${deg}deg) translateX(250px)`;
+    wheel.appendChild(img);
+}
+
+btn.addEventListener('click', () => {
+    const spinAngle = Math.floor(Math.random() * 360) + 720;
+    angle += spinAngle;
+    wheel.style.transform = `rotate(${angle}deg)`;
+    
+    const imgs = wheel.querySelectorAll('img');
+    imgs.forEach(img => img.classList.remove('selected'));
+    
+    setTimeout(() => {
+        const normalizedAngle = angle % 360;
+        const index = Math.floor((positions - (normalizedAngle / (360 / positions))) % positions);
+        imgs[index].classList.add('selected');
+    }, 5000);
+});
+</script>
+
+</body>
+</html>
